@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2271679292463979612}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   bullet: {fileID: 5512321803092707746, guid: 07f2c6ed9fd64114ea5495ec5e93efaa, type: 3}
   turret: {fileID: 6147731165908858676}
   bulletSpawnPoint: {fileID: 2271679292778548283}
+  health: 0
   curSpeed: 0
   targetSpeed: 0
   rotSpeed: 150
@@ -225,7 +226,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6147731165908858676}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.08820351, z: -0, w: 0.99610245}
   m_LocalPosition: {x: -0.074, y: 0.43, z: -0.007}
   m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
   m_ConstrainProportionsScale: 0
@@ -233,7 +234,7 @@ Transform:
   - {fileID: 4008742702336861466}
   m_Father: {fileID: 2271679292463979614}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -10.121, z: 0}
 --- !u!1001 &2271679292158309437
 PrefabInstance:
   m_ObjectHideFlags: 0

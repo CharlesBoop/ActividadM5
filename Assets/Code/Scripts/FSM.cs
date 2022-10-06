@@ -28,9 +28,12 @@ public class FSM : MonoBehaviour
     public float patrolRadius;
     public float chaseRadius;
     public float AttackRadius;
+    public float evadeTime;
     private int index = -1;
-
+    
+    private int timePassed;
     public bool hit;
+    private int evade;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,9 @@ public class FSM : MonoBehaviour
         chaseRadius = 10f;
         AttackRadius = 6.0f;
         hit = false;
+        timePassed = 0;
+        evadeTime = 50;
+
         
         FindNextPoint();
     }
@@ -60,6 +66,10 @@ public class FSM : MonoBehaviour
 
     void Update()
     {
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
 
         switch(currentState)
         {
@@ -110,8 +120,15 @@ public class FSM : MonoBehaviour
 
     void UpdateChase()
     {   
+        //Check if get hitted
+        if(hit)
+        {
+            evade = Random.Range(0,2);
+            print("Switch to Evade state");
+            currentState = FSMStates.Evade;
+        }
         //Check the distance with player tank, when the distance is near, transition to aim state
-        if (Vector3.Distance(transform.position, playerTransform.position) <= AttackRadius) 
+        else if (Vector3.Distance(transform.position, playerTransform.position) <= AttackRadius) 
         {
             print("Switch to Aim state");
             currentState = FSMStates.Aim;
@@ -121,12 +138,6 @@ public class FSM : MonoBehaviour
         {
             print("Switch to Patrol state");
             currentState = FSMStates.Patrol;
-        }
-        //Agregar para el evadir
-        else if(hit)
-        {
-            print("Switch to Evade state");
-            currentState = FSMStates.Evade;
         }
 
         //Rotate to the target point
@@ -163,7 +174,32 @@ public class FSM : MonoBehaviour
 
     void UpdateEvade()
     {
-        
+        timePassed += 1; 
+        if (timePassed < evadeTime)
+        {
+            print("Evading");
+            //Rotate the turret
+            Quaternion targetTurretRotation = Quaternion.LookRotation(playerTransform.position - transform.position);
+            turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetTurretRotation, Time.deltaTime * turretRotSpeed);
+
+            if(evade == 0)
+            {
+                // Go left
+                transform.Translate(Vector3.left * Time.deltaTime * curSpeed);
+            }
+            if(evade == 1)
+            {
+                // Go right
+                transform.Translate(Vector3.right * Time.deltaTime * curSpeed);
+            }
+        }
+        else
+        {
+            hit = false;
+            timePassed = 0;
+            print("Switch to Chase state");
+            currentState = FSMStates.Chase;
+        }
     }
 
     private void FixedUpdate() 

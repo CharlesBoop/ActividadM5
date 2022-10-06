@@ -32,6 +32,12 @@ public class TankController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health <= 0)
+        {
+            // Application.Quit();
+            UnityEditor.EditorApplication.isPlaying = false;
+            Debug.Log("You Lose!");
+        }
         UpdateControl();
         UpdateWeapon();
     }
